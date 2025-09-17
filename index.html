@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Souqly</title>
+</head>
+<body>
+  <!-- 🔒 New: scrollable area to replace body scrolling -->
+<div class="scroll-area">
+        <nav class="navbar">
+            <div class="logo">SOUQLY</div>
+            <div class="nav-links">
+                <a class="nav-shop" href="#">SHOP</a>
+                <a href="#" class="nav-about">ABOUT</a>
+                <a class="cart" href="#"><img src="images/cart.png" alt="Cart" width="30px"></a>
+            </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-big">
+            <div class="hero-big-text">
+                <p class="text-org">Organize with elegance.</p>
+                <div class="hero-buttons">
+                    <button class="but-shop" type="button">SHOP NOW</button>
+                    <button class="but-learn" type="button" onclick="document.getElementById('why-souqly').scrollIntoView({ behavior: 'smooth' });">LEARN MORE</button>
+                </div>
+            </div>
+            <div class="hero-big-img">
+                <img src="images/souqlypreview.png" alt="Souqly" class="big-img" width="600">
+            </div>
+        </div>
+    </section>
+
+    <section class="hero-why" id="why-souqly">
+      <div class="hero-why-title">
+          <p class="why-title">WHY SOUQLY?</p>
+      </div>
+    </section>
+
+    <section class="hero-reasons">
+      <div class="scroll-container">
+        <div class="scroll-content">
+          <!-- First set -->
+          <div class="fabric">
+            <img src="images/premiumfabric.png" alt="fabric" class="prem-fab" width="180px">
+            <p class="fa-text1">Premium fabric</p>
+            <p class="fa-text2">Soft & durable quality</p>
+          </div>
+          <div class="unique">
+            <img src="images/uniquecolors.png" alt="color" class="color-unq" width="180px">
+            <p class="un-text1">Unique Colors</p>
+            <p class="un-text2">Exclusive shades to match any style</p>
+          </div>
+          <div class="foldable">
+            <img src="images/foldable.png" alt="fold" class="fold-space" width="180px">
+            <p class="fo-text1">Foldable & Space-Saving</p>
+            <p class="fo-text2">Compact design, easy to store</p>
+          </div>
+          <div class="minimal">
+            <img src="images/minimal.png" alt="minimal" class="min-design" width="180px">
+            <p class="min-text1">Minimal Design</p>
+            <p class="min-text2">Clean look, fits every home</p>
+          </div>
+
+          <!-- Duplicate set for infinite loop -->
+          <div class="fabric">
+            <img src="images/premiumfabric.png" alt="fabric" class="prem-fab" width="180px">
+            <p class="fa-text1">Premium fabric</p>
+            <p class="fa-text2">Soft & durable quality</p>
+          </div>
+          <div class="unique">
+            <img src="images/uniquecolors.png" alt="color" class="color-unq" width="180px">
+            <p class="un-text1">Unique Colors</p>
+            <p class="un-text2">Exclusive shades to match any style</p>
+          </div>
+          <div class="foldable">
+            <img src="images/foldable.png" alt="fold" class="fold-space" width="180px">
+            <p class="fo-text1">Foldable & Space-Saving</p>
+            <p class="fo-text2">Compact design, easy to store</p>
+          </div>
+          <div class="minimal">
+            <img src="images/minimal.png" alt="minimal" class="min-design" width="180px">
+            <p class="min-text1">Minimal Design</p>
+            <p class="min-text2">Clean look, fits every home</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /.scroll-area -->
+
+  <!-- 🌟 Fake fading scrollbar -->
+  <div class="fake-scrollbar"><div class="fake-thumb"></div></div>
+
+  <!-- 📜 Tiny script to sync thumb + fade in/out -->
+  <script>
+  const area  = document.querySelector('.scroll-area');
+  const bar   = document.querySelector('.fake-scrollbar');
+  const thumb = document.querySelector('.fake-thumb');
+
+  // NEW: navbar scroll state
+  const navbar = document.querySelector('.navbar');
+  function updateNavbarState() {
+    if (area.scrollTop > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+
+  function updateThumb() {
+    const h  = area.clientHeight;
+    const sh = area.scrollHeight;
+    const st = area.scrollTop;
+
+    const ratio   = Math.min(1, h / sh);
+    const thumbH  = Math.max(30, h * ratio);
+    const maxTop  = h - thumbH;
+    const top     = (sh > h) ? maxTop * (st / (sh - h)) : 0;
+
+    thumb.style.height = thumbH + 'px';
+    thumb.style.transform = `translateY(${top}px)`;
+  }
+
+  function showBar() {
+    bar.classList.add('visible');
+    clearTimeout(showBar._t);
+    showBar._t = setTimeout(() => bar.classList.remove('visible'), 700);
+  }
+
+  // Sync + fade on events
+  area.addEventListener('scroll', () => {
+    updateThumb();
+    updateNavbarState();  // NEW
+    showBar();
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    updateThumb();
+    updateNavbarState();  // NEW
+  });
+
+  area.addEventListener('mouseenter', () => bar.classList.add('visible'));
+  area.addEventListener('mouseleave', () => bar.classList.remove('visible'));
+
+  // Init once content paints
+  window.addEventListener('load', () => {
+    updateThumb();
+    updateNavbarState();  // NEW
+  });
+</script>
+
+</body>
+</html>
